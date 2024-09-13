@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webSocket: WebSocket
+    private var rfidData: String? = null // 수신한 RFID 정보를 저장할 변수
+    private var rfidDialog: AlertDialog? = null // RFID 다이얼로그를 저장할 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +48,9 @@ class MainActivity : AppCompatActivity() {
 
             override fun onMessage(webSocket: WebSocket, text: String) {
                 runOnUiThread {
-                    Toast.makeText(this@MainActivity, "수신한 RFID: $text", Toast.LENGTH_SHORT).show()
+                    rfidData = text // 수신한 RFID 데이터를 변수에 저장
+                    // 이미 열린 RFID 다이얼로그가 있을 경우, 그 다이얼로그의 메시지를 업데이트
+                    rfidDialog?.setMessage("수신된 RFID: $rfidData")
                 }
             }
 
@@ -104,13 +108,24 @@ class MainActivity : AppCompatActivity() {
         // 확인 버튼 추가
         builder.setPositiveButton("확인") { dialog, _ ->
             dialog.dismiss()
-            // 웹소켓을 통해 RFID 데이터를 요청
-            webSocket.send("RFID 요청")
+
+            val invalidRfid = "RFID UID: 0 0 0 0 0 0 0 0 0 0 0 0 " // 인식되지 않은 RFID 값
+            if (rfidData != null && rfidData != invalidRfid) {
+                // 확인 버튼을 누르면 RFID 데이터를 변수에 저장하거나 처리
+                val storedRfid = rfidData // 저장된 RFID 정보 사용
+                Toast.makeText(this@MainActivity, "저장된 RFID: $storedRfid", Toast.LENGTH_SHORT).show()
+            } else {
+                // 유효하지 않은 RFID인 경우 처리하지 않음
+                Toast.makeText(this@MainActivity, "RFID 데이터가 없습니다.", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        // 다이얼로그 표시
-        val rfidDialog = builder.create()
-        rfidDialog.show()
+        // 다이얼로그를 표시하고 저장
+        rfidDialog = builder.create()
+        rfidDialog?.show()
+
+        // RFID 요청 메시지 전송
+        webSocket.send("RFID 요청")
     }
 
     override fun onDestroy() {
