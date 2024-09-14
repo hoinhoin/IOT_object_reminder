@@ -6,6 +6,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import java.util.*
 
 class WeekdayActivity : AppCompatActivity() {
 
@@ -43,8 +44,29 @@ class WeekdayActivity : AppCompatActivity() {
             textView.setOnClickListener { handleDaySelection(it as TextView) }
         }
 
-        // 기본 선택 요일 설정 (예: 월요일)
-        handleDaySelection(dayTextViews[1]) // 예를 들어 월요일을 기본으로 선택
+        // 기본 선택 요일 설정 (오늘의 요일 선택)
+        selectToday()
+    }
+
+    // 오늘 요일에 따라 UI의 요일 선택
+    private fun selectToday() {
+        val calendar = Calendar.getInstance()
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+
+        // Calendar.DAY_OF_WEEK returns 1 (Sunday) to 7 (Saturday), so map that to the correct index
+        // Sunday is 1, Monday is 2, ..., Saturday is 7
+        val dayIndex = when (dayOfWeek) {
+            Calendar.SUNDAY -> 0
+            Calendar.MONDAY -> 1
+            Calendar.TUESDAY -> 2
+            Calendar.WEDNESDAY -> 3
+            Calendar.THURSDAY -> 4
+            Calendar.FRIDAY -> 5
+            Calendar.SATURDAY -> 6
+            else -> 1 // Default to Monday if something goes wrong
+        }
+
+        handleDaySelection(dayTextViews[dayIndex])
     }
 
     // 요일 선택 시 처리하는 함수
@@ -52,7 +74,6 @@ class WeekdayActivity : AppCompatActivity() {
         // 모든 요일의 배경을 초기화
         dayTextViews.forEach { it.setBackgroundResource(0) }
 
-        // 선택된 요일의 배경을 원형으로 변경
         selectedDay.setBackgroundResource(R.drawable.weekday_selector)
         selectedTextView = selectedDay
 
