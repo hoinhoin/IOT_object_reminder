@@ -1,6 +1,7 @@
 package com.example.iot_object_reminder
 
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,12 @@ class WeekdayActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "" // 제목을 빈 문자열로 설정
+
+        // 뒤로 가기 버튼 클릭 리스너 추가
+        val backIcon = findViewById<ImageView>(R.id.back_icon)
+        backIcon.setOnClickListener {
+            finish()  // 현재 액티비티 종료
+        }
 
         // 요일 텍스트 뷰들을 리스트에 추가
         dayTextViews = listOf(
