@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ScheduleActivity">
+
+    <!-- 상단 앱 바 (Toolbar) -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#6200EE"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <!-- 제목 -->
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="일정"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center_vertical" />
+
+        <!-- 뒤로 가기 아이콘 -->
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_back"
+            android:tint="@android:color/white"
+            android:layout_gravity="start|center_vertical"
+            android:padding="8dp"
+            android:contentDescription="Back Icon" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- 요일 텍스트 그룹 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:padding="8dp">
+
+        <!-- 각 요일을 TextView로 구현 -->
+        <TextView
+            android:id="@+id/sun"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="일"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@drawable/weekday_selector" />
+
+        <TextView
+            android:id="@+id/mon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="월"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@drawable/weekday_selector" />
+
+        <TextView
+            android:id="@+id/tue"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="화"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@drawable/weekday_selector" />
+
+        <TextView
+            android:id="@+id/wed"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="수"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@drawable/weekday_selector" />
+
+        <TextView
+            android:id="@+id/thu"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="목"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@drawable/weekday_selector" />
+
+        <TextView
+            android:id="@+id/fri"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="금"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@drawable/weekday_selector" />
+
+        <TextView
+            android:id="@+id/sat"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="토"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@drawable/weekday_selector" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <!-- 아이콘 -->
+    <ImageView
+        android:id="@+id/item_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/visual"
+        android:contentDescription="Item Icon"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="16dp" />
+
+    <!-- 일정 항목 텍스트 -->
+    <TextView
+        android:id="@+id/item_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Single-line item"
+        android:textSize="16sp"
+        android:layout_gravity="center_vertical"
+        android:textColor="@android:color/black" />
+
+    <!-- 상태 버튼 (플러스/마이너스) -->
+    <ImageView
+        android:id="@+id/status_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/plus"
+        android:contentDescription="Status Icon"
+        android:layout_gravity="center_vertical" />
+</LinearLayout>

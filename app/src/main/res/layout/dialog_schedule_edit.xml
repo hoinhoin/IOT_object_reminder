@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:layout_gravity="center"
+    android:backgroundTint="#E7E7E7"
+    android:layout_margin="16dp">
+
+    <TextView
+        android:id="@+id/tvDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="어떤 일정을 수정하시겠습니까?"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/button_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="캘린더"
+            android:textColor="@android:color/holo_purple"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/button_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="요일"
+            android:layout_marginStart="16dp"
+            android:textColor="@android:color/holo_purple"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
+</LinearLayout>
