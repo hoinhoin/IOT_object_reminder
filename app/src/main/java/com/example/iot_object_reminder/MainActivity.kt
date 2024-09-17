@@ -18,9 +18,8 @@ import okhttp3.WebSocketListener
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webSocketManager: WebSocketManager
+    private lateinit var rfidDialogManager: RFIDDialogManager
     private lateinit var scheduleDialogManager: ScheduleDialogManager
-    private lateinit var rfidDialogManager: RFIDDialogManager // RFIDDialogManager 추가
-    private var rfidData: String? = null // 수신한 RFID 정보를 저장할 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,20 +29,28 @@ class MainActivity : AppCompatActivity() {
         webSocketManager = WebSocketManager(this, webSocketListener)
         webSocketManager.initWebSocket("ws://192.168.4.1:8080")
 
-        // ScheduleDialogManager 및 RFIDDialogManager 초기화
-        scheduleDialogManager = ScheduleDialogManager(this)
+        // RFIDDialogManager 초기화
         rfidDialogManager = RFIDDialogManager(this, webSocketManager)
+
+        // ScheduleDialogManager 초기화
+        scheduleDialogManager = ScheduleDialogManager(this)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.imageTintList = ColorStateList.valueOf(Color.WHITE)
         fab.setOnClickListener {
-            showCustomDialog() // 첫 번째 다이얼로그를 표시하는 함수 호출
+            showCustomDialog() // Custom Dialog 표시
         }
 
         // 스케줄 편집 다이얼로그 호출
         val calendarIcon: ImageView = findViewById(R.id.calendar_icon)
         calendarIcon.setOnClickListener {
-            scheduleDialogManager.showScheduleEditDialog() // ScheduleDialogManager를 통해 다이얼로그 호출
+            scheduleDialogManager.showScheduleEditDialog()
+        }
+
+        // 앱 실행 시 저장된 RFID 정보를 확인
+        val storedRfid = rfidDialogManager.getStoredRFID()
+        if (storedRfid != null) {
+            Toast.makeText(this, "저장된 RFID: $storedRfid", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -56,8 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onMessage(webSocket: WebSocket, text: String) {
             runOnUiThread {
-                rfidData = text // 수신한 RFID 데이터를 변수에 저장
-                rfidDialogManager.updateRFIDData(rfidData) // RFID 다이얼로그 업데이트
+                rfidDialogManager.updateRFIDData(text)
             }
         }
 
@@ -77,14 +83,13 @@ class MainActivity : AppCompatActivity() {
 
     // Custom Dialog 관련 코드
     private fun showCustomDialog() {
-        val builder = AlertDialog.Builder(this)
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
         val inflater = layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_register_item, null)
         builder.setView(dialogView)
         val dialog = builder.create()
 
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        dialog.show()
 
         val btnBody: Button = dialogView.findViewById(R.id.btnBody)
         val btnItem: Button = dialogView.findViewById(R.id.btnItem)
@@ -92,16 +97,14 @@ class MainActivity : AppCompatActivity() {
         btnBody.setOnClickListener {
             Toast.makeText(this, "본체 선택", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
-            rfidDialogManager.showRFIDDialog() // RFID 다이얼로그 표시
+            rfidDialogManager.showRFIDDialog() // RFID Dialog 표시
         }
 
         btnItem.setOnClickListener {
             Toast.makeText(this, "물건 선택", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
-            rfidDialogManager.showRFIDDialog() // RFID 다이얼로그 표시
+            rfidDialogManager.showRFIDDialog() // RFID Dialog 표시
         }
-
-        dialog.show()
     }
 
     override fun onDestroy() {
