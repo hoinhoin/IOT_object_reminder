@@ -9,10 +9,11 @@ class RFIDStorage(context: Context) {
         context.getSharedPreferences("RFID_STORAGE", Context.MODE_PRIVATE)
 
     //  associated name 과 함께 RFID 데이터를 저장하는 함수
-    fun saveRFID(uid: String, name: String) {
+    fun saveRFID(uid: String, name: String, type: String) {
         val editor = sharedPreferences.edit()
         editor.putString("RFID_UID", uid)
         editor.putString("RFID_NAME", name)
+        editor.putString("RFID_TYPE", type)
         editor.apply()
     }
 
@@ -20,8 +21,9 @@ class RFIDStorage(context: Context) {
     fun getStoredRFID(): String? {
         val uid = sharedPreferences.getString("RFID_UID", null)
         val name = sharedPreferences.getString("RFID_NAME", null)
+        val type = sharedPreferences.getString("RFID_TYPE", null)
         return if (uid != null && name != null) {
-            "UID: $uid, 이름: $name"
+            "UID: $uid, 이름: $name, 타입: $type"
         } else {
             null
         }

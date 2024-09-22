@@ -10,10 +10,10 @@ import androidx.core.view.setPadding
 
 class RFIDDialogManager(private val context: Context, private val webSocketManager: WebSocketManager) {
 
-    private var rfidData: String? = null
+    private var rfidData: String? = null // 수신한 RFID 데이터를 저장할 변수
     private var rfidDialog: AlertDialog? = null
     private val rfidStorage = RFIDStorage(context) // RFIDStorage 초기화
-
+    var rfidType: String? = null
     fun showRFIDDialog() {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("RFID를 인식시켜주세요")
@@ -42,15 +42,15 @@ class RFIDDialogManager(private val context: Context, private val webSocketManag
 
         builder.setPositiveButton("확인") { dialog, _ ->
             dialog.dismiss()
-            val invalidRfid = "0 0 0 0 0 0 0 0 0 0 0 0"
+            val invalidRfid = "0 0 0 0 0 0 0 0 0 0 0 0" //안테나에 rfid가 인식이 안됐을 때 uid 값
             val enteredName = nameInput.text.toString()
 
-            if (rfidData != null && rfidData != invalidRfid) {
+            if (rfidData != null && rfidData != invalidRfid) { //rifd가 인식이 되지 않은 상태가 아니라면
                 val storedRfid = rfidData
                 Toast.makeText(context, "저장된 RFID: $storedRfid", Toast.LENGTH_SHORT).show()
 
                 // Save both RFID and name to local storage
-                rfidStorage.saveRFID(storedRfid!!, enteredName)
+                rfidStorage.saveRFID(storedRfid!!, enteredName, rfidType ?: "알 수 없음") //null일 때를 대비 "알수없음"
             } else {
                 Toast.makeText(context, "RFID 데이터가 없습니다.", Toast.LENGTH_SHORT).show()
             }

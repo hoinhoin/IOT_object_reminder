@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        override fun onMessage(webSocket: WebSocket, text: String) {
+        override fun onMessage(webSocket: WebSocket, text: String) { //웹소켓(WebSocket) 통신을 통해 서버로부터 받은 메시지를 처리
             runOnUiThread {
                 rfidDialogManager.updateRFIDData(text)
             }
@@ -98,12 +98,14 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "본체 선택", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
             rfidDialogManager.showRFIDDialog() // RFID Dialog 표시
+            rfidDialogManager.rfidType = "본체"
         }
 
         btnItem.setOnClickListener {
             Toast.makeText(this, "물건 선택", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
             rfidDialogManager.showRFIDDialog() // RFID Dialog 표시
+            rfidDialogManager.rfidType = "물건"
         }
     }
 
